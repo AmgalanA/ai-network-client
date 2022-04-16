@@ -27,7 +27,6 @@ const Chat = ({ chat }: IProp) => {
       if (profile) {
         const profileIds = [chat.firstProfileId, chat.secondProfileId]
         const receiverId = profileIds.filter((id) => id !== profile.id)[0]
-        console.log(receiverId)
         const response = await axios.post<IProfile>(`/api/profile/getById`, {
           id: receiverId,
         })
@@ -37,7 +36,6 @@ const Chat = ({ chat }: IProp) => {
 
     getSender()
   }, [])
-
   return (
     <div
       onClick={() =>

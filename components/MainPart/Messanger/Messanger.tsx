@@ -16,6 +16,8 @@ interface IProp {
 
 const styles = {
   wrapper: ``,
+  profileWrapper: `flex items-center`,
+  profileName: ``,
   header: `flex sticky top-12 bg-slate-100 py-3 justify-between px-10 items-center`,
   back: `cursor-pointer hover:scale-105 transition-all duration-600`,
   icon: ``,
@@ -82,7 +84,6 @@ const Messanger = ({ receiver }: IProp) => {
     setLoading(false)
   }
   if (!messages) return <div>Loading</div>
-
   return (
     <div className={styles.wrapper}>
       <header className={styles.header}>

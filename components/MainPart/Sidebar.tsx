@@ -36,6 +36,16 @@ const Sidebar = () => {
         >
           Messanger
         </li>
+        <li
+          className={styles.menuItem}
+          onClick={() => router.push(`/groups/${profile.id}`)}
+        >
+          Groups
+        </li>
+        <li className={styles.menuItem} onClick={() => router.push(`/music`)}>
+          Music
+        </li>
+        <li className={styles.menuItem}>Photos</li>
       </ul>
     </div>
   )

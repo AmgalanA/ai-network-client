@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import Comment from '../../components/MainPart/Comment/Comment'
 import Header from '../../components/MainPart/Header'
 import CreatePostModal from '../../components/MainPart/Modals/CreatePostModal'
+import { IGroup } from '../../types/groups/IGroup'
 
 interface IProp {
   post: IPost
@@ -30,6 +31,10 @@ const styles = {
   commentInput: `flex flex-1 outline-none border pl-3 py-2 rounded-full placeholder:text-sm`,
   sendButton: `bg-red-500 text-white font-semibold px-4 py-1 rounded-full`,
   showMore: `text-blue-500 font-light text-center cursor-pointer`,
+  groupContainer: `flex items-center space-x-3`,
+  groupName: `cursor-pointer hover:border-b border-blue-500 font-bold text-lg`,
+  groupDescription: `font-bold `,
+  groupInfoContainer: `flex flex-col `,
 }
 
 const PostPage = ({ post }: IProp) => {
@@ -40,6 +45,7 @@ const PostPage = ({ post }: IProp) => {
   const [text, setText] = useState('')
   const [loading, setLoading] = useState(false)
   const [showingMore, setShowingMore] = useState(false)
+  const [group, setGroup] = useState({} as IGroup)
 
   const profile = useTypedSelector((store) => store.profileReducer.profile)
   const isShowingCreatePostModal = useTypedSelector(
@@ -73,6 +79,18 @@ const PostPage = ({ post }: IProp) => {
     checkProfile()
   }, [])
 
+  useEffect(() => {
+    const getGroup = async () => {
+      const response = await axios
+        .post(`/api/group/get-one`, { id: post.groupId })
+        .then((res) => setGroup(res.data))
+        .catch((error) => console.log(error))
+    }
+    if (post.groupId) {
+      getGroup()
+    }
+  }, [])
+
   const sendComment = async () => {
     setLoading(true)
 
@@ -92,7 +110,6 @@ const PostPage = ({ post }: IProp) => {
 
     setLoading(false)
   }
-
   return (
     <>
       <Header />
@@ -107,21 +124,41 @@ const PostPage = ({ post }: IProp) => {
           <div className={styles.infoContainer}>
             <h1 className={styles.title}>{post.title}</h1>
             <h2 className={styles.text}>{post.text}</h2>
-            <div className={styles.creatorContainer}>
-              <img
-                className={styles.avatar}
-                src={`${process.env.NEXT_PUBLIC_BASE_URL}/${creator.avatar}`}
-              />
-              <h1
-                onClick={(e) => {
-                  e.stopPropagation()
-                  router.push(`/profile/${creator.id}`)
-                }}
-                className={styles.creatorName}
-              >
-                {creator.name} {creator.secondName}
-              </h1>
-            </div>
+            {post.groupId ? (
+              <div className={styles.groupContainer}>
+                <img
+                  className={styles.avatar}
+                  src={`${process.env.NEXT_PUBLIC_BASE_URL}/${group.imageUrl}`}
+                />
+                <div className={styles.groupInfoContainer}>
+                  <h1
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      router.push(`/group/${group.id}`)
+                    }}
+                    className={styles.groupName}
+                  >
+                    {group.name}
+                  </h1>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.creatorContainer}>
+                <img
+                  className={styles.avatar}
+                  src={`${process.env.NEXT_PUBLIC_BASE_URL}/${creator.avatar}`}
+                />
+                <h1
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    router.push(`/profile/${creator.id}`)
+                  }}
+                  className={styles.creatorName}
+                >
+                  {creator.name} {creator.secondName}
+                </h1>
+              </div>
+            )}
 
             <h1 className={styles.title}>Comments</h1>
             <div className={styles.addCommentContainer}>

@@ -3,6 +3,7 @@ import { IPost } from '../../types/post/IPost'
 import Post from '../MainPart/Post/Post'
 
 interface IProp {
+  isGroup?: boolean
   posts: IPost[]
 }
 
@@ -21,13 +22,20 @@ const breakpointObj = {
   500: 1,
 }
 
-const MasonryLayout = ({ posts }: IProp) => {
+const MasonryLayout = ({ isGroup, posts }: IProp) => {
+  if (!posts) return <div>Loading</div>
   return (
     <div className={styles.container}>
       <Masonry className={styles.masonry} breakpointCols={breakpointObj}>
-        {posts.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
+        {isGroup
+          ? posts
+              .sort((a, b) => b.id - a.id)
+              .map((post) => (
+                <Post isGroup={!!post.groupId} key={post.id} post={post} />
+              ))
+          : posts.map((post) => (
+              <Post isGroup={!!post.groupId} key={post.id} post={post} />
+            ))}
       </Masonry>
     </div>
   )

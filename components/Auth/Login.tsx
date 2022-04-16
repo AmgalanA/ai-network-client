@@ -57,7 +57,6 @@ const Login = () => {
         `/api/auth/loginUser`,
         payload
       )
-      console.log(response)
       localStorage.setItem('token', response.data.token)
       router.push('/')
     } catch (error: any) {

@@ -11,18 +11,14 @@ const styles = {
 
 const Feed = () => {
   const posts = useTypedSelector((store) => store.postsReducer.posts)
-  const isShowingCreatePostModal = useTypedSelector(
-    (store) => store.showingReducer.isShowingCreatePostModal
+  const { isShowingCreatePostModal } = useTypedSelector(
+    (store) => store.showingReducer
   )
   return (
     <div className={styles.wrapper}>
       <Header />
 
-      {isShowingCreatePostModal ? (
-        <CreatePostModal />
-      ) : (
-        <MasonryLayout posts={posts} />
-      )}
+      <MasonryLayout posts={posts} />
     </div>
   )
 }

@@ -8,4 +8,5 @@ export interface IPost {
   imageUrl: string
   creatorId: string
   comments: IComment[]
+  groupId: number | null
 }

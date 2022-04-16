@@ -7,6 +7,8 @@ const styles = {
   randomImageContainer: ``,
   banner: `h-80 w-full object-cover `,
   avatar: `w-20 h-20 object-cover  mx-auto -mt-10 rounded-full`,
+  name: `font-bold text-xl text-blue-600 text-center`,
+  status: `font-extralight text-center text-black`,
 }
 
 interface IProp {
@@ -25,6 +27,10 @@ const UserProfile = ({ showingProfile }: IProp) => {
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/${showingProfile?.avatar}`}
           alt=""
         />
+        <h1 className={styles.name}>
+          {showingProfile.name} {showingProfile.secondName}
+        </h1>
+        <h2 className={styles.status}>{showingProfile.status}</h2>
       </div>
     </div>
   )

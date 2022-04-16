@@ -40,7 +40,6 @@ export const getServerSideProps: GetServerSideProps =
       const chatsResponse = await axios.get<IChat[]>(
         `${process.env.NEXT_PUBLIC_BASE_URL}/chat/get-chats/${response.data.id}`
       )
-      console.log(chatsResponse.data)
 
       return {
         props: {

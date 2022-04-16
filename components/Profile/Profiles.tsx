@@ -18,7 +18,6 @@ const styles = {
 
 const Profiles = ({ profiles }: IProp) => {
   const router = useRouter()
-
   return (
     <div className={styles.wrapper}>
       {profiles.map((profile) => (

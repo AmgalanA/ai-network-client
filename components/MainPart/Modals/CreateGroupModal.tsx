@@ -4,10 +4,7 @@ import { useRef, useState } from 'react'
 import { BsCloudUpload } from 'react-icons/bs'
 import { useDispatch } from 'react-redux'
 import { useTypedSelector } from '../../../app/hooks'
-import { addPost } from '../../../slices/posts/postsSlice'
-import { setIsShowingCreatePostModal } from '../../../slices/showing/showingSlice'
-import { IGroup } from '../../../types/groups/IGroup'
-import { IPost } from '../../../types/post/IPost'
+import { addGroup } from '../../../slices/groups/groupsSlice'
 
 const styles = {
   wrapper: `px-5 py-10`,
@@ -18,23 +15,19 @@ const styles = {
   formContainer: `flex flex-col space-y-3 items-start`,
   header: `flex items-center space-x-4 mt-5`,
   input: `outline-none bg-none w-full font-bold placeholder:font-normal`,
-  avatar: `h-12 rounded-full`,
+  avatar: `h-12 w-12 object-cover rounded-full`,
   name: `font-bold`,
   button: `w-full text-center bg-red-600 text-white font-bold py-2 rounded-full`,
 }
 
-interface IProp {
-  group?: IGroup
-}
-
-const CreatePostModal = ({ group }: IProp) => {
+const CreateGroupModal = () => {
   const dispatch = useDispatch()
   const router = useRouter()
 
   const [image, setImage] = useState<any>(null)
-  const [title, setTitle] = useState('')
-  const [text, setText] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
 
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -46,40 +39,24 @@ const CreatePostModal = ({ group }: IProp) => {
     }
   }
 
-  const createPost = async () => {
+  const createGroup = async () => {
+    setLoading(true)
+
     if (profile) {
-      setLoading(true)
       const formData = new FormData()
-      formData.append('title', title)
-      formData.append('text', text)
+      formData.append('name', name)
+      formData.append('description', description)
       formData.append('creatorId', profile.id.toString())
       formData.append('image', image)
-
-      if (group) {
-        const response = await axios
-          .post(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/group/create-post/${group.id}`,
-            formData
-          )
-          .then((res) => {
-            router.back()
-          })
-          .catch((error) => console.log(error))
-      } else {
-        const response = await axios
-          .post<IPost>(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/post/create`,
-            formData
-          )
-          .then((response) => {
-            dispatch(addPost(response.data))
-            router.push('/')
-          })
-          .catch((error) => console.log(error))
-      }
-
-      setLoading(false)
+      const response = await axios
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/group/create`, formData)
+        .then((res) => {
+          dispatch(addGroup(res.data))
+          router.back()
+        })
     }
+
+    setLoading(false)
   }
 
   if (!profile) return <div>Loading</div>
@@ -125,27 +102,26 @@ const CreatePostModal = ({ group }: IProp) => {
         <input
           className={styles.input}
           type="text"
-          placeholder="Add Title to your post"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Add Name to your Group"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           className={styles.input}
-          placeholder="Your text"
+          placeholder="Description of group"
         />
         <button
-          onClick={createPost}
-          disabled={!title || !text || !image || loading}
+          onClick={createGroup}
+          disabled={!name || !description || !image || loading}
           className={styles.button}
           type="button"
         >
-          Add Post
+          Create Group
         </button>
       </div>
     </div>
   )
 }
-
-export default CreatePostModal
+export default CreateGroupModal

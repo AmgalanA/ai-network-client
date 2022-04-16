@@ -8,6 +8,9 @@ import postsReducer from '../slices/posts/postsSlice'
 import showingReducer from '../slices/showing/showingSlice'
 import searchReducer from '../slices/search/searchSlice'
 import chatsReducer from '../slices/chats/chatsSlice'
+import groupsReducer from '../slices/groups/groupsSlice'
+import musicReducer from '../slices/music/musicSlice'
+import playingSongReducer from '../slices/music/playingSongSlice'
 
 const makeStore = () =>
   configureStore({
@@ -17,6 +20,9 @@ const makeStore = () =>
       showingReducer,
       searchReducer,
       chatsReducer,
+      groupsReducer,
+      musicReducer,
+      playingSongReducer,
     },
     devTools: true,
   })
