@@ -11,6 +11,7 @@ import chatsReducer from '../slices/chats/chatsSlice'
 import groupsReducer from '../slices/groups/groupsSlice'
 import musicReducer from '../slices/music/musicSlice'
 import playingSongReducer from '../slices/music/playingSongSlice'
+import albumsReducer from '../slices/albums/albumsSlice'
 
 const makeStore = () =>
   configureStore({
@@ -23,6 +24,7 @@ const makeStore = () =>
       groupsReducer,
       musicReducer,
       playingSongReducer,
+      albumsReducer,
     },
     devTools: true,
   })

@@ -70,6 +70,11 @@ const Header = () => {
                   ? 'posts'
                   : router.pathname.includes('profile')
                   ? 'profiles'
+                  : router.pathname.includes('chats')
+                  ? 'chats'
+                  : router.pathname.includes('music') ||
+                    router.pathname.includes('song')
+                  ? 'music'
                   : router.pathname.includes('search') &&
                     Object.keys(router.query)[0]
               }`,

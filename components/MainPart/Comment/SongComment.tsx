@@ -1,13 +1,12 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { IComment } from '../../../types/comment/IComment'
 import { IProfile } from '../../../types/profile/IProfile'
 import Timeago from 'timeago-react'
 import { ICommentSong } from '../../../types/music/ICommentSong'
 
 interface IProp {
-  comment: IComment
+  comment: ICommentSong
 }
 
 const styles = {
@@ -19,7 +18,7 @@ const styles = {
   sentAt: `font-extralight text-sm`,
 }
 
-const Comment = ({ comment }: IProp) => {
+const SongComment = ({ comment }: IProp) => {
   const router = useRouter()
 
   const [sender, setSender] = useState({} as IProfile)
@@ -51,11 +50,11 @@ const Comment = ({ comment }: IProp) => {
             src={`${process.env.NEXT_PUBLIC_BASE_URL}/${sender.avatar}`}
           />
         </header>
-        <span>{comment.comment}</span>
+        <span>{comment.text}</span>
       </div>
       <Timeago className={styles.sentAt} datetime={comment.sentAt} />
     </div>
   )
 }
 
-export default Comment
+export default SongComment

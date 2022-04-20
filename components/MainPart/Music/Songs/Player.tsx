@@ -17,7 +17,7 @@ import {
 } from '../../../../slices/music/playingSongSlice'
 
 const styles = {
-  wrapper: `fixed bottom-10 w-full bg-slate-100 pr-60 flex space-x-4 items-center m-5 pl-2 py-2 rounded-lg`,
+  wrapper: `fixed bottom-10 w-full xl:w-[80%] bg-slate-100 pr-60 flex space-x-4 items-center m-5 pl-2 py-2 rounded-lg`,
   iconsContainer: `flex items-center text-2xl text-blue-500`,
   pauseContainer: `text-4xl mr-1 text-blue-600`,
   icon: `cursor-pointer`,
@@ -83,6 +83,8 @@ const Player = () => {
     dispatch(setCurrentTime(Number(e.target.value)))
   }
 
+  if (!song.picture) return <div></div>
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.iconsContainer}>
@@ -100,12 +102,12 @@ const Player = () => {
         <div className={styles.pictureAndTextContainer}>
           <img
             className={styles.picture}
-            src={`${process.env.NEXT_PUBLIC_BASE_URL}/${songs[0].picture}`}
+            src={`${process.env.NEXT_PUBLIC_BASE_URL}/${song.picture}`}
             alt="song-picture"
           />
           <div className={styles.songInfoContainer}>
-            <h1 className={styles.songName}>{songs[0].name}</h1>
-            <h2 className={styles.songArtist}>{songs[0].artist}</h2>
+            <h1 className={styles.songName}>{song.name}</h1>
+            <h2 className={styles.songArtist}>{song.artist}</h2>
             {currentTime > 0 && (
               <input
                 min={0}

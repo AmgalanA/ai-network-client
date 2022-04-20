@@ -57,7 +57,9 @@ const Chat = ({ chat }: IProp) => {
         <h1>
           {receiver.name} {receiver.secondName}
         </h1>
-        <h2>{chat?.messages?.[chat?.messages?.length - 1].text}</h2>
+        {chat.messages && (
+          <h2>{chat?.messages?.[chat?.messages?.length - 1]?.text}</h2>
+        )}
       </div>
     </div>
   )

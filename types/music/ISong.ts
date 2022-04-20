@@ -1,3 +1,4 @@
+import { IAlbum } from '../album/IAlbum'
 import { ICommentSong } from './ICommentSong'
 
 export interface ISong {
@@ -10,4 +11,5 @@ export interface ISong {
   picture: string
   audio: string
   comments: ICommentSong[]
+  albums: IAlbum[]
 }

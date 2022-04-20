@@ -107,7 +107,10 @@ const Messanger = ({ receiver }: IProp) => {
       <div className={styles.chatContainer}>
         {/* Messages goes here... */}
         <div className={styles.messagesContainer}>
-          {messages && messages.map((message) => <Message message={message} />)}
+          {messages &&
+            messages.map((message) => (
+              <Message key={message.id} message={message} />
+            ))}
         </div>
         <form onSubmit={sendMessage} className={styles.formContainer}>
           <input

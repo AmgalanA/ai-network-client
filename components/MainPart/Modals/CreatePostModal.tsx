@@ -109,7 +109,13 @@ const CreatePostModal = ({ group }: IProp) => {
               </div>
             </>
           )}
-          <input type="file" hidden ref={fileRef} onChange={addImage} />
+          <input
+            accept="image/*"
+            type="file"
+            hidden
+            ref={fileRef}
+            onChange={addImage}
+          />
         </div>
       </div>
       <div className={styles.formContainer}>

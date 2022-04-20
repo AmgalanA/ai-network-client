@@ -6,6 +6,7 @@ import { FcAudioFile } from 'react-icons/fc'
 import { useDispatch } from 'react-redux'
 import { useTypedSelector } from '../../../app/hooks'
 import { addSong } from '../../../slices/music/musicSlice'
+import { IAlbum } from '../../../types/album/IAlbum'
 
 const styles = {
   wrapper: `px-5 py-10`,
@@ -24,7 +25,11 @@ const styles = {
   addAudioText: `font-bold text-base`,
 }
 
-const CreateSongModal = () => {
+interface IProp {
+  album?: IAlbum
+}
+
+const CreateSongModal = ({ album }: IProp) => {
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -62,7 +67,18 @@ const CreateSongModal = () => {
     formData.append('creatorId', profile.id.toString())
     formData.append('picture', image)
     formData.append('audio', audio)
-    console.log(songName)
+    if (album) {
+      const response = await axios
+        .post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/album/add-song/${album.id}`,
+          formData
+        )
+        .then((res) => {
+          dispatch(addSong(res.data.music))
+          router.back()
+        })
+        .catch((error) => console.error(error))
+    }
 
     const response = await axios
       .post(`${process.env.NEXT_PUBLIC_BASE_URL}/music/create`, formData)
